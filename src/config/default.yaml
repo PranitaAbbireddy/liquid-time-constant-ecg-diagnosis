@@ -1,0 +1,55 @@
+project:
+  name: "LNN ECG Diagnosis"
+  seed: 42
+
+paths:
+  data_dir: "mitbih"
+  train_csv: "mitbih/mitbih_train.csv"
+  test_csv: "mitbih/mitbih_test.csv"
+  ptbdb_normal_csv: "mitbih/ptbdb_normal.csv"
+  ptbdb_abnormal_csv: "mitbih/ptbdb_abnormal.csv"
+  graphs_dir: "graphs"
+  reports_dir: "reports"
+  checkpoints_dir: "checkpoints"
+
+data:
+  num_features: 187
+  num_classes: 5
+  val_fraction: 0.1
+  normalize: false
+  temporal_stride: 4
+
+classes:
+  0: "Normal"
+  1: "Supraventricular"
+  2: "Ventricular"
+  3: "Fusion"
+  4: "Unknown"
+
+model:
+  hidden_size: 64
+  tau_min: 0.5
+  pooling: "last"
+
+training:
+  batch_size: 128
+  epochs: 10
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  use_class_weights: true
+  loss_type: weighted_ce
+  weight_scheme: sqrt_inverse
+  sampling: none
+  focal_gamma: 2.0
+  tune_logit_bias: true
+  use_amp: true
+  num_workers: 0
+  checkpoint_name: "best_model.pt"
+
+evaluation:
+  figure_dpi: 300
+
+explainability:
+  ig_steps: 50
+  samples_per_class: 1
+  attribution_sample_seed: 42
